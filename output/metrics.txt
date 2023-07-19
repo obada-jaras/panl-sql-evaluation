@@ -1,0 +1,6 @@
+Accuracy: 0.95
+Exact Match Rate: 0.95
+Average SQL Generation Time: 4.69 seconds
+Execution Success Rate: 0.94
+Total Evaluation Time: 0:33:25
+Total Evaluated Examples: 427

@@ -1,0 +1,1710 @@
+[
+    {
+        "input": "اعطيني ايميل الدكتور محمد بني مصطفى",
+        "output": "SELECT email FROM instructor WHERE name_arabic = 'محمود بني مصطفى';"
+    },
+    {
+        "input": "بنقدر تقلي اي الدائرة الي بيتبع الها عميد كلية الحقوق والادارة العامة؟",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "شو همي مساقات علم النفس الي بتفتحها مادة نظرية الاعمال وبعطيها الدكتور محمود بني مصطفى ؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي دراسات المرأة' OR symbol = 'رئيسي علم النفس / فرعي دراسات المرأة') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'نظرية الأعمال' OR symbol = 'نظرية الأعمال') AND (i.name_arabic = 'محمود بني مصطفى');"
+    },
+    {
+        "input": "بأي قسم بتشتغل ريما",
+        "output": "SELECT d.name_arabic FROM department d JOIN teaching_assistant ta ON d.id = ta.department_id WHERE ta.name_arabic = 'ريما الشعلان';"
+    },
+    {
+        "input": "بدي قائمة مساقات الديزاين مرتبة حسب الرمز مع تفاصيل المساق",
+        "output": "SELECT c.name_arabic, c.symbol, c.description, c.credits FROM course c WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التصميم' OR symbol = 'التصميم') ORDER BY c.symbol;"
+    },
+    {
+        "input": "بتغدر تعطيني وصف لدائرة الاكاديمية",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "اعطيني المساقات اللي لازم اخذ قبلها ECO222",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التسويق' OR symbol = 'التسويق') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'ECO222' OR symbol = 'ECO222');"
+    },
+    {
+        "input": "اني كلية اللي رمزها SCI",
+        "output": "SELECT description FROM faculty WHERE symbol = 'SCI';"
+    },
+    {
+        "input": "مساق med211 لأي تخصص؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'MED211' OR c.symbol = 'MED211';"
+    },
+    {
+        "input": "وديلي جميع اسماء دكاترة دائرة الاقتصاد",
+        "output": "SELECT i.name_arabic FROM instructor i WHERE i.department_id IN (SELECT id FROM department WHERE name_arabic = 'الإقتصاد' OR symbol = 'الإقتصاد');"
+    },
+    {
+        "input": "بدي مساقات بتنزل اقل شي ساعتين وأقل من اربع ساعات وبدرسها دكتور هلال",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التغذية والحمية' OR symbol = 'التغذية والحمية') AND c.credits >= 2 AND c.credits <= 4 AND (i.name_arabic = 'راني الهلال');"
+    },
+    {
+        "input": "بحكيهاش هههههه",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي دراسات المرأة' OR symbol = 'رئيسي علم النفس / فرعي دراسات المرأة') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'نظرية الأعمال' OR symbol = 'نظرية الأعمال') AND (i.name_arabic = 'محمود بني مصطفى');"
+    },
+    {
+        "input": "شو بلزم انزل قبل الرعاية الصحيه",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'الرعاية الصحية' OR c.symbol = 'الرعاية الصحية';"
+    },
+    {
+        "input": "بدي المساقات اللي بتفتح مساق ECO222 للتسويق",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التسويق' OR symbol = 'التسويق') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'ECO222' OR symbol = 'ECO222');"
+    },
+    {
+        "input": "اعطوني اسماء الدكاترة بكلية التربية",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'التربية' OR f.symbol = 'التربية';"
+    },
+    {
+        "input": "مواد بدرسها الدكتور محمد بني مصطفى في علم النفس فرعي دراسات مرأة ويكون متطلبها نظرية الاعمال",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي دراسات المرأة' OR symbol = 'رئيسي علم النفس / فرعي دراسات المرأة') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'نظرية الأعمال' OR symbol = 'نظرية الأعمال') AND (i.name_arabic = 'محمود بني مصطفى');"
+    },
+    {
+        "input": "ايش تخصصات الاقتصاد الي بتعطيها الدكتورة نجوى الحماد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "اعطيني التخصصات اللي بدرسها الدكتور محمد حماد ل امن المعلومات وتكون ساعة وحدة",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN ( SELECT id FROM major WHERE name_arabic = 'أمن المعلومات' OR symbol = 'أمن المعلومات') AND c.credits = 1 AND i.name_arabic = 'محمد حماد';"
+    },
+    {
+        "input": "ادارة الاعمال باي كلية",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "عميد الحقوق تابع لاي دائرة",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "لأي تخصص بتبع هاد المساق",
+        "output": "SELECT m.name_arabic FROM major m JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'MED211' OR c.symbol = 'MED211';"
+    },
+    {
+        "input": "المساعد حسن الدوسري اي مساقات بدرس؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tc ON c.id = tc.course_id JOIN teaching_assistant ta ON tc.ta_id = ta.id WHERE ta.name_arabic = 'حسن الدوسري';"
+    },
+    {
+        "input": "ايش الدائرة اللي بيشتغل فيها الدكتور محمد العمريس",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE i.name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "بتقدر تقدم قائمة دوائر كلية الأعمال ؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الأعمال والاقتصاد' OR f.symbol = 'الأعمال والاقتصاد';"
+    },
+    {
+        "input": "شو قائمة المساقات الي بتدرسها المساعدة رناد العربي في تخصص الموسيقى",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الموسيقى' OR symbol = 'الموسيقى') AND (ta.name_arabic = 'رناد العربي');"
+    },
+    {
+        "input": "أني دائرة تابعة لعميد الحقوق ؟",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "اعطيني ايميل رئيس الدائرة الاكاديمية الجغرافية",
+        "output": "SELECT i.email FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "شو هو رقم تلفون رئيس الكهرباء وهندسة الحاسوب؟",
+        "output": "SELECT i.phone_number FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الهندسة الكهربائية وهندسة الحاسوب' OR d.symbol = 'الهندسة الكهربائية وهندسة الحاسوب';"
+    },
+    {
+        "input": "مواد موسيقى رناد العربي",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الموسيقى' OR symbol = 'الموسيقى') AND (ta.name_arabic = 'رناد العربي');"
+    },
+    {
+        "input": "بتقدر تقدم الايميل لعميد كلية الفنون ؟",
+        "output": "SELECT i.email FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الفنون والموسيقى والتصميم' OR f.symbol = 'الفنون والموسيقى والتصميم';"
+    },
+    {
+        "input": "عندك رقم عميد العلوم؟",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "كم رقم تلفون رناد العربي",
+        "output": "SELECT phone_number FROM teaching_assistant WHERE name_arabic = 'رناد العربي';"
+    },
+    {
+        "input": "شو قائمة المستويات بالتخصص امن المعلومات يلي بدها ساعة معتمدة لدكتور محمد حماد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN ( SELECT id FROM major WHERE name_arabic = 'أمن المعلومات' OR symbol = 'أمن المعلومات') AND c.credits = 1 AND i.name_arabic = 'محمد حماد';"
+    },
+    {
+        "input": "Bbikk",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي دراسات المرأة' OR symbol = 'رئيسي علم النفس / فرعي دراسات المرأة') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'نظرية الأعمال' OR symbol = 'نظرية الأعمال') AND (i.name_arabic = 'محمود بني مصطفى');"
+    },
+    {
+        "input": "مين بعطي مساق law331",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'LAW331' OR c.symbol = 'LAW331';"
+    },
+    {
+        "input": "شو في مواد ثانية بعطيها الدكتور رائد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE i.name_arabic = 'رائد العناني';"
+    },
+    {
+        "input": "ممكن تعطيني الساعات المكتبية شيت رئيس دائرة العلوم المالية والمصرفية؟",
+        "output": "SELECT i.office_hours FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'العلوم المالية والمصرفية' OR d.symbol = 'العلوم المالية والمصرفية';"
+    },
+    {
+        "input": "لو سمحت بتقدر تعطيني وصف عام لكلية العلوم والي رمزها SCI؟",
+        "output": "SELECT description FROM faculty WHERE symbol = 'SCI';"
+    },
+    {
+        "input": "اش كود مواد الفرنسي",
+        "output": "SELECT symbol FROM department WHERE name_arabic = 'اللغة الفرنسية' OR symbol = 'اللغة الفرنسية';"
+    },
+    {
+        "input": "شو هو عنوان البريد الالكتروني للدكتور محمود بني مصطفى",
+        "output": "SELECT email FROM instructor WHERE name_arabic = 'محمود بني مصطفى';"
+    },
+    {
+        "input": "بدي مادة من تخصص التغذية مش اقل من ساعتين ولا اكثر من ٤ ساعات",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التغذية والحمية' OR symbol = 'التغذية والحمية') AND c.credits >= 2 AND c.credits <= 4 AND (i.name_arabic = 'راني الهلال');"
+    },
+    {
+        "input": "ايش هو مساق law331",
+        "output": "SELECT description FROM course WHERE name_arabic = 'LAW331' OR symbol = 'LAW331';"
+    },
+    {
+        "input": "شو المواد اللي بتدرسها الدكتورة نجوى الحماد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "شو رأيك تعرض قائمة برامج دائرة المحاسبة",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE d.name_arabic = 'المحاسبة' OR d.symbol = 'المحاسبة';"
+    },
+    {
+        "input": "شو في مساقات مع المساعد حسن الدوسري؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tc ON c.id = tc.course_id JOIN teaching_assistant ta ON tc.ta_id = ta.id WHERE ta.name_arabic = 'حسن الدوسري';"
+    },
+    {
+        "input": "شو في مساقات بتخصص الكيميا بنحسبلها ازود من ٥ ساعات",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "شو رمز كلية التربية",
+        "output": "SELECT symbol FROM faculty WHERE name_arabic = 'التربية';"
+    },
+    {
+        "input": "في اي كلية تخصص ادارة الاعمال",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "شو المتطلبات اللي لازم اخلصها عشان انزل مساق CSC121",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'CSC121' OR c.symbol = 'CSC121';"
+    },
+    {
+        "input": "اعطيني قائمة بأسماء دكاترة دائرة الاقتصاد",
+        "output": "SELECT i.name_arabic FROM instructor i WHERE i.department_id IN (SELECT id FROM department WHERE name_arabic = 'الإقتصاد' OR symbol = 'الإقتصاد');"
+    },
+    {
+        "input": "شو رقم المساعد محمود الرفاعي في ريتاج؟",
+        "output": "SELECT ritaj_id FROM teaching_assistant WHERE name_arabic = 'محمود الرفاعي';"
+    },
+    {
+        "input": "في اي دائرة موجودة ريما الشعلان؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN teaching_assistant ta ON d.id = ta.department_id WHERE ta.name_arabic = 'ريما الشعلان';"
+    },
+    {
+        "input": "ايش المواد الي لازم اكون مخلصتها و بعطيها الدكتور محمود بني مصطفى عشان انزل نظرية الأعمال تخصص رئيسي علم نفس فرعي دراسات المراة",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي دراسات المرأة' OR symbol = 'رئيسي علم النفس / فرعي دراسات المرأة') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'نظرية الأعمال' OR symbol = 'نظرية الأعمال') AND (i.name_arabic = 'محمود بني مصطفى');"
+    },
+    {
+        "input": "شو المتطلب لقانون عام ؟",
+        "output": "SELECT c2.name_arabic FROM course c1 JOIN course_prerequisite cp ON c1.id = cp.course_id JOIN course c2 ON cp.prerequisite_id = c2.id WHERE c1.name_arabic = 'القانون العام' OR c1.symbol = 'القانون العام';"
+    },
+    {
+        "input": "بتقدر توصفلي الكلية اللي رمزها Sci ؟",
+        "output": "SELECT description FROM faculty WHERE symbol = 'SCI';"
+    },
+    {
+        "input": "Med211 فانو تخصص؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'MED211' OR c.symbol = 'MED211';"
+    },
+    {
+        "input": "شو بعطي الدكتور مراد الشمايلة",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.id = i.department_id WHERE i.name_arabic = 'مراد الشمايلة';"
+    },
+    {
+        "input": "بتقدر تقدم قائمة في المساقات",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN ( SELECT id FROM major WHERE name_arabic = 'أمن المعلومات' OR symbol = 'أمن المعلومات') AND c.credits = 1 AND i.name_arabic = 'محمد حماد';"
+    },
+    {
+        "input": "اميل رئيس دائرة الجغرافيا",
+        "output": "SELECT i.email FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "هو دكتور محمد عمريس رئيس اني دائرة؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE i.name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "ايش الساعات المكتبية للدكتور",
+        "output": "SELECT office_hours FROM instructor WHERE name_arabic = 'بشار طحاينه';"
+    },
+    {
+        "input": "الدكتور صالح الرفاعي بأي كلية؟",
+        "output": "SELECT f.name_arabic FROM faculty f JOIN department d ON f.id = d.faculty_id JOIN instructor i ON d.id = i.department_id WHERE i.name_arabic = 'صالح الرفاعي';"
+    },
+    {
+        "input": "شو في مساقات هندسة كهرباء ساعاتها ١ او ٢ او ٣",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الهندسة الكهربائية' OR symbol = 'الهندسة الكهربائية') AND credits >= 1 AND credits <= 3;"
+    },
+    {
+        "input": "المساعدة ريما الشعلان في أي دائرة؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN teaching_assistant ta ON d.id = ta.department_id WHERE ta.name_arabic = 'ريما الشعلان';"
+    },
+    {
+        "input": "بتعرف ايش هي المواد اللي بوخدوها طلاب تخصص الأحياء فرعي الكيمياء الحيوية اللي بتطلب مساق الرياضيات المتقدمة",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الأحياء / فرعي الكيمياء الحيوية' OR symbol = 'الأحياء / فرعي الكيمياء الحيوية') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'الرياضيات المتقدمة' OR symbol = 'الرياضيات المتقدمة');"
+    },
+    {
+        "input": "بتقدر تخبرني عن الكلية اللي تابعة الها الدائرة الاكاديمية ادارة الاعمال",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "شو المواد يلي بعطيها المساعد حسن الدوسري؟؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tc ON c.id = tc.course_id JOIN teaching_assistant ta ON tc.ta_id = ta.id WHERE ta.name_arabic = 'حسن الدوسري';"
+    },
+    {
+        "input": "عندك قائمة بالدكاترة اللي بيعطوا بكلية التربية؟",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'التربية' OR f.symbol = 'التربية';"
+    },
+    {
+        "input": "شو هي المساقات بتخصص علم الاجتماع فرعي علم نفس بتحتاج المساق CSC121?",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم اجتماع / فرعي علم النفس' OR symbol = 'رئيسي علم اجتماع / فرعي علم النفس') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'CSC121' OR symbol = 'CSC121') AND (ta.name_arabic = 'أمل العليان');"
+    },
+    {
+        "input": "شو مساقات تخصص علم نفس/فرعي علم اجتماع متطلبها السابق BUSA221 وبتدرسها رانية الخالدي مع المساعد سلمى القرشي",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR symbol = 'رئيسي علم النفس / فرعي علم الاجتماع') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'BUS221' OR symbol = 'BUS221') AND (i.name_arabic = 'رانيا الخالدي') AND (ta.name_arabic = 'سلمى القرشي');"
+    },
+    {
+        "input": "اشرحلي عن مساق اساسيات الهندسة",
+        "output": "SELECT description FROM course WHERE name_arabic = 'أساسيات البرمجة' OR symbol = 'أساسيات البرمجة';"
+    },
+    {
+        "input": "بتقدر تعطي رقم التلفون لعميد كلية العلوم ؟",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "شو رقم دكتور محمد عمريس في ريتااج",
+        "output": "SELECT ritaj_id FROM instructor WHERE name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "شو الاوفيس اورز لعميد كلية الاي تي؟",
+        "output": "SELECT i.office_hours FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "ممكن تزودني بالبريد الاكتروني لعميد كلية الفنون والموسيقى ؟",
+        "output": "SELECT i.email FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الفنون والموسيقى والتصميم' OR f.symbol = 'الفنون والموسيقى والتصميم';"
+    },
+    {
+        "input": "شو بتوخذوا بالهندسة ؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "الدكتور محمد العمريس لاي دائرة هو",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE i.name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "مين مساعدين مساق الفيزيا الكلاسيكية؟",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN ta_course tac ON ta.id = tac.ta_id JOIN course c ON tac.course_id = c.id WHERE c.name_arabic = 'الفيزياء الكلاسيكية' OR c.symbol = 'الفيزياء الكلاسيكية';"
+    },
+    {
+        "input": "الدكتور مراد الشمايلة بأي دائرة بكون ؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.id = i.department_id WHERE i.name_arabic = 'مراد الشمايلة';"
+    },
+    {
+        "input": "شو في مساقات بالكيميا عدد ساعاتها اكثر او خمسة؟",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "شو المتطلبات الي قبل لمساق الرعاية الصحيه",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'الرعاية الصحية' OR c.symbol = 'الرعاية الصحية';"
+    },
+    {
+        "input": "بأي دائرة نظرية الاعمال؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN major m ON d.id = m.department_id JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'نظرية الأعمال' OR c.symbol = 'نظرية الأعمال';"
+    },
+    {
+        "input": "ممكن تحكيلي شو الدائرة اللي بتبع الها عميد كلية الحقوق والادارة العامة؟",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "ايش برنامج المحاسبه؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE d.name_arabic = 'المحاسبة' OR d.symbol = 'المحاسبة';"
+    },
+    {
+        "input": "بينفع قائمة الدوائر بكلية الاعمال والاقتصاد ؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الأعمال والاقتصاد' OR f.symbol = 'الأعمال والاقتصاد';"
+    },
+    {
+        "input": "رائد العناني شو بدرس؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE i.name_arabic = 'رائد العناني';"
+    },
+    {
+        "input": "بدي تعرضلي مساقات برنامج التصميم وترتبها حسب رمزها وكل مساق مع تفاصيل الخاصة فيه",
+        "output": "SELECT c.name_arabic, c.symbol, c.description, c.credits FROM course c WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التصميم' OR symbol = 'التصميم') ORDER BY c.symbol;"
+    },
+    {
+        "input": "هاد المساق لاي تخصص",
+        "output": "SELECT m.name_arabic FROM major m JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'MED211' OR c.symbol = 'MED211';"
+    },
+    {
+        "input": "في اي كلية موجود الدكتور صالح الرفاعي ؟",
+        "output": "SELECT f.name_arabic FROM faculty f JOIN department d ON f.id = d.faculty_id JOIN instructor i ON d.id = i.department_id WHERE i.name_arabic = 'صالح الرفاعي';"
+    },
+    {
+        "input": "بتعرف الرقم شيت الدكتور محمد العمريس عريتاج؟",
+        "output": "SELECT ritaj_id FROM instructor WHERE name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "شسم رئيس دائرة الجغرافيا",
+        "output": "SELECT i.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "شو مواد الكيميا اللي اكثر من خمس ساعات",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "كلية الحقوق من اي دائرة",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "ايمتا بقدر الاقي الدكتور بشار طحاينه بالمكتب",
+        "output": "SELECT office_hours FROM instructor WHERE name_arabic = 'بشار طحاينه';"
+    },
+    {
+        "input": "بتقدر توصفلي دائرة الاعلام الاكاديمية",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "بتقدر تقدم رقمك لرئيس دائرة الهندسة",
+        "output": "SELECT i.phone_number FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الهندسة الكهربائية وهندسة الحاسوب' OR d.symbol = 'الهندسة الكهربائية وهندسة الحاسوب';"
+    },
+    {
+        "input": "بتقدر تعطي الرقم للدكتور محمد العمري ؟",
+        "output": "SELECT phone_number FROM instructor WHERE name_arabic = 'محمد العمري';"
+    },
+    {
+        "input": "دكتورة نجوى شو بتعطي مواد بتخصص الفايننس؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "أي دائرة موجودة ريما شعلان",
+        "output": "SELECT d.name_arabic FROM department d JOIN teaching_assistant ta ON d.id = ta.department_id WHERE ta.name_arabic = 'ريما الشعلان';"
+    },
+    {
+        "input": "ايش رقم موبايل المساعد رناد العربي",
+        "output": "SELECT phone_number FROM teaching_assistant WHERE name_arabic = 'رناد العربي';"
+    },
+    {
+        "input": "ايش رقم الدكتور محمد العمريس على ريتاج؟",
+        "output": "SELECT ritaj_id FROM instructor WHERE name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "أي دكاترة بعطوا فيزياء فرعي رياضيات؟",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id WHERE d.id IN (SELECT department_id FROM major WHERE name_arabic = 'الفيزياء / فرعي الرياضيات' OR symbol = 'الفيزياء / فرعي الرياضيات');"
+    },
+    {
+        "input": "ع العوافي بزبط يحج نقدم تخصص علم اجتماع فرع علم نفس المتطلب تاعهاا csc121 رمزو بنفع يدرسها المساعد أمل العليان ؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم اجتماع / فرعي علم النفس' OR symbol = 'رئيسي علم اجتماع / فرعي علم النفس') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'CSC121' OR symbol = 'CSC121') AND (ta.name_arabic = 'أمل العليان');"
+    },
+    {
+        "input": "شو الرقم الجامعي لعميد التمريض",
+        "output": "SELECT i.ritaj_id FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الصيدلة والتمريض والمهن الصحية' OR f.symbol = 'الصيدلة والتمريض والمهن الصحية';"
+    },
+    {
+        "input": "شو في مواد بتخصص التغذية عليها ساعتين او ثلاث مع الدكتور راني الهلال",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التغذية والحمية' OR symbol = 'التغذية والحمية') AND c.credits >= 2 AND c.credits <= 4 AND (i.name_arabic = 'راني الهلال');"
+    },
+    {
+        "input": "بقدر أقدم قائمة بالمواد في تخصص التغذية والحمية طبعاً والساعات العتمدة للتخصص يمكن تكون اكبر او بتساوي ٢ وأقل من  ٤ وبدرسنا الدكتور راني هلال",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التغذية والحمية' OR symbol = 'التغذية والحمية') AND c.credits >= 2 AND c.credits <= 4 AND (i.name_arabic = 'راني الهلال');"
+    },
+    {
+        "input": "شو هي المساقات الي بساعد فيها المستعد حسن الدوسري",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tc ON c.id = tc.course_id JOIN teaching_assistant ta ON tc.ta_id = ta.id WHERE ta.name_arabic = 'حسن الدوسري';"
+    },
+    {
+        "input": "بدي قائمة مساقات لتخصص علم نفس فرعي دراسات مرأة، وبكون الشرط المسبق فيهم انه نخلص مساق نظرية الاعمال، ويكون دكتور المادة محمود بني مصطفى",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي دراسات المرأة' OR symbol = 'رئيسي علم النفس / فرعي دراسات المرأة') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'نظرية الأعمال' OR symbol = 'نظرية الأعمال') AND (i.name_arabic = 'محمود بني مصطفى');"
+    },
+    {
+        "input": "شو مساقات المساعد حسن الدوسري؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tc ON c.id = tc.course_id JOIN teaching_assistant ta ON tc.ta_id = ta.id WHERE ta.name_arabic = 'حسن الدوسري';"
+    },
+    {
+        "input": "مساق الرياضيات شو بفتحلي مواد لتخصص الاحياء",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الأحياء / فرعي الكيمياء الحيوية' OR symbol = 'الأحياء / فرعي الكيمياء الحيوية') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'الرياضيات المتقدمة' OR symbol = 'الرياضيات المتقدمة');"
+    },
+    {
+        "input": "القانون العام شو بفتح مواد؟",
+        "output": "SELECT c2.name_arabic FROM course c1 JOIN course_prerequisite cp ON c1.id = cp.course_id JOIN course c2 ON cp.prerequisite_id = c2.id WHERE c1.name_arabic = 'القانون العام' OR c1.symbol = 'القانون العام';"
+    },
+    {
+        "input": "شو المواد اللي بتعطيها دكتورة مجوى حماد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "في اي كلية دائرة ادارة الاعمال",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "شو المواد الي بدرسها رناد العربي في الموسيقى؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الموسيقى' OR symbol = 'الموسيقى') AND (ta.name_arabic = 'رناد العربي');"
+    },
+    {
+        "input": "بدي قائمة باسماء دكاترة التجارة",
+        "output": "SELECT i.name_arabic FROM instructor i WHERE i.department_id IN (SELECT id FROM department WHERE name_arabic = 'الإقتصاد' OR symbol = 'الإقتصاد');"
+    },
+    {
+        "input": "شو اسماء مواد تخصص امن معلومات وساعتها معتمدة وبعطيها دكتور محمد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN ( SELECT id FROM major WHERE name_arabic = 'أمن المعلومات' OR symbol = 'أمن المعلومات') AND c.credits = 1 AND i.name_arabic = 'محمد حماد';"
+    },
+    {
+        "input": "بدي رقم تلفون عيد كلية العلوم",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "شو اسم كلية التربية على ريتاج ؟",
+        "output": "SELECT symbol FROM faculty WHERE name_arabic = 'التربية';"
+    },
+    {
+        "input": "أعطيني قائمة دكاترة تخصص الفيزيا فرعي رياضيات",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id WHERE d.id IN (SELECT department_id FROM major WHERE name_arabic = 'الفيزياء / فرعي الرياضيات' OR symbol = 'الفيزياء / فرعي الرياضيات');"
+    },
+    {
+        "input": "بتقدر تعطيني قائمة فيها دكاترة دائرة الاقتصاد",
+        "output": "SELECT i.name_arabic FROM instructor i WHERE i.department_id IN (SELECT id FROM department WHERE name_arabic = 'الإقتصاد' OR symbol = 'الإقتصاد');"
+    },
+    {
+        "input": "مين الدكاترة الي بعطوا LAW331",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'LAW331' OR c.symbol = 'LAW331';"
+    },
+    {
+        "input": "برامج دائرة المحاسبة",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE d.name_arabic = 'المحاسبة' OR d.symbol = 'المحاسبة';"
+    },
+    {
+        "input": "بتقدر تقدم قائمة المساقات لتخصص رئيسي علم اجتماع / فرعي علم النفس التي تتطلب المساق CSC121 كشرط مسبق ويدرسها المساعد أمل العليان؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم اجتماع / فرعي علم النفس' OR symbol = 'رئيسي علم اجتماع / فرعي علم النفس') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'CSC121' OR symbol = 'CSC121') AND (ta.name_arabic = 'أمل العليان');"
+    },
+    {
+        "input": "ايش هو رقم المساعد رناد العربي",
+        "output": "SELECT phone_number FROM teaching_assistant WHERE name_arabic = 'رناد العربي';"
+    },
+    {
+        "input": "وبن بلاقي دائرة ادارة الاعمال",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "ايش رقم جوال رناد العربي",
+        "output": "SELECT phone_number FROM teaching_assistant WHERE name_arabic = 'رناد العربي';"
+    },
+    {
+        "input": "شو هو رمز برنامج الترجمة ؟",
+        "output": "SELECT symbol FROM major WHERE name_arabic = 'الترجمة';"
+    },
+    {
+        "input": "شو رقم محمود رفاعي ؏ ريتاج",
+        "output": "SELECT ritaj_id FROM teaching_assistant WHERE name_arabic = 'محمود الرفاعي';"
+    },
+    {
+        "input": "اعطيني وصف لدائرة الاعلام",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "شو المواد الي بتفتح مادة الرعاية الصحية",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'الرعاية الصحية' OR c.symbol = 'الرعاية الصحية';"
+    },
+    {
+        "input": "اعطيني رقم محمود الرفاعي ع ريتاج",
+        "output": "SELECT ritaj_id FROM teaching_assistant WHERE name_arabic = 'محمود الرفاعي';"
+    },
+    {
+        "input": "بتقدر تعطي رقم تلفونك لعميد العلوم",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "دائرة اللغات",
+        "output": "SELECT description FROM department WHERE name_arabic = 'اللغات والترجمة';"
+    },
+    {
+        "input": "ممكن تعطيني مقدمة عن مساق اساسيات البرمجة؟",
+        "output": "SELECT description FROM course WHERE name_arabic = 'أساسيات البرمجة' OR symbol = 'أساسيات البرمجة';"
+    },
+    {
+        "input": "بتقدر تقدم قائمة مواد تخصص احياء فرعي كيمياء الي بتلزمها مادة رياضيات متقدمة؟ بتلزمها",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الأحياء / فرعي الكيمياء الحيوية' OR symbol = 'الأحياء / فرعي الكيمياء الحيوية') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'الرياضيات المتقدمة' OR symbol = 'الرياضيات المتقدمة');"
+    },
+    {
+        "input": "بدي رقم تلفون رئيس دائرة هندسة الحاسوب",
+        "output": "SELECT i.phone_number FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الهندسة الكهربائية وهندسة الحاسوب' OR d.symbol = 'الهندسة الكهربائية وهندسة الحاسوب';"
+    },
+    {
+        "input": "شو الكلية الي بشتغل فيها دكتور محمد علاونة و هو عميد للكلية",
+        "output": "SELECT f.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE i.name_arabic = 'محمد علاونة';"
+    },
+    {
+        "input": "اني دائرة علم النفس ماينر علم اجتماع",
+        "output": "SELECT d.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE m.name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR m.symbol = 'رئيسي علم النفس / فرعي علم الاجتماع';"
+    },
+    {
+        "input": "عميد الحقوق لاي دائرة بتبع؟",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "شو المواد الي بدرسها الدكتور رائد العناني؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE i.name_arabic = 'رائد العناني';"
+    },
+    {
+        "input": "كم ساعة مساق MED211",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'MED211' OR symbol = 'MED211';"
+    },
+    {
+        "input": "مين مساعدين تخصص التربية الخاصة",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN department d ON ta.department_id = d.id WHERE d.id IN (SELECT department_id FROM major WHERE name_arabic = 'التعليم الجامع والتربية الخاصة' OR symbol = 'التعليم الجامع والتربية الخاصة');"
+    },
+    {
+        "input": "بتقدر تعطي الرقم للدكتور محمد العمري",
+        "output": "SELECT phone_number FROM instructor WHERE name_arabic = 'محمد العمري';"
+    },
+    {
+        "input": "علم نفس في أي دائرة؟",
+        "output": "SELECT d.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE m.name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR m.symbol = 'رئيسي علم النفس / فرعي علم الاجتماع';"
+    },
+    {
+        "input": "دكاترة law331",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'LAW331' OR c.symbol = 'LAW331';"
+    },
+    {
+        "input": "دكتور محمد عمريس رئيس اي دائرة؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE i.name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "لأي دائرة هذا المساق برجع MED211",
+        "output": "SELECT m.name_arabic FROM major m JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'MED211' OR c.symbol = 'MED211';"
+    },
+    {
+        "input": "مين بعرف وين مكتب بشار طحاينة",
+        "output": "SELECT office_hours FROM instructor WHERE name_arabic = 'بشار طحاينه';"
+    },
+    {
+        "input": "رمز ARC151 مادة شو؟",
+        "output": "SELECT name_arabic FROM course WHERE symbol = 'ARC151';"
+    },
+    {
+        "input": "ايش اسم رئيس دائرة الجغرافيا ؟",
+        "output": "SELECT i.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "بدي المواد لتخصص التصميم مرتبين حسب الرمز",
+        "output": "SELECT c.name_arabic, c.symbol, c.description, c.credits FROM course c WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التصميم' OR symbol = 'التصميم') ORDER BY c.symbol;"
+    },
+    {
+        "input": "بتقدر تعطيني وصف لكلية الهندسة؟",
+        "output": "SELECT description FROM faculty WHERE name_arabic = 'الهندسة والتكنولوجيا' OR symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "مساق نظرية الاعمال في اي دائرة ؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN major m ON d.id = m.department_id JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'نظرية الأعمال' OR c.symbol = 'نظرية الأعمال';"
+    },
+    {
+        "input": "شو بعطي دكتور رائد العناني؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE i.name_arabic = 'رائد العناني';"
+    },
+    {
+        "input": "بتقدر تعطي قائمة الدوائر الأكاديمية في كلية الأعمال والاقتصاد؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الأعمال والاقتصاد' OR f.symbol = 'الأعمال والاقتصاد';"
+    },
+    {
+        "input": "مين هو عميد كلية الحقوق",
+        "output": "SELECT i.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "ممكن تعطيني وصف للدائرة الاكاديمية الاعلام",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "وين كلية ال IT",
+        "output": "SELECT description FROM faculty WHERE name_arabic = 'الهندسة والتكنولوجيا' OR symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "اي ساعة بقدر الاقي  رئيس الدائرة  عندي شوية اسألة",
+        "output": "SELECT i.office_hours FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'العلوم المالية والمصرفية' OR d.symbol = 'العلوم المالية والمصرفية';"
+    },
+    {
+        "input": "شو المساقات الي متطلبها السابق القانون العام؟",
+        "output": "SELECT c2.name_arabic FROM course c1 JOIN course_prerequisite cp ON c1.id = cp.course_id JOIN course c2 ON cp.prerequisite_id = c2.id WHERE c1.name_arabic = 'القانون العام' OR c1.symbol = 'القانون العام';"
+    },
+    {
+        "input": "كم ساعة مادة MED211",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'MED211' OR symbol = 'MED211';"
+    },
+    {
+        "input": "بدي ID عميد كلية الصيدلة",
+        "output": "SELECT i.ritaj_id FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الصيدلة والتمريض والمهن الصحية' OR f.symbol = 'الصيدلة والتمريض والمهن الصحية';"
+    },
+    {
+        "input": "اي ساعة رئيس دائرة العلوم النفسية والمكتبية بيكون بمكتبة",
+        "output": "SELECT i.office_hours FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'العلوم المالية والمصرفية' OR d.symbol = 'العلوم المالية والمصرفية';"
+    },
+    {
+        "input": "كيف بقدر اقدم اي دي لعميد التمريض",
+        "output": "SELECT i.ritaj_id FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الصيدلة والتمريض والمهن الصحية' OR f.symbol = 'الصيدلة والتمريض والمهن الصحية';"
+    },
+    {
+        "input": "بتقدر تعطي قائمة المساقات في تخصص الهندسة الكهربائية اللي بتكون الساعات المعتمدة فيها أكبر من أو بتساوي 1 وأقل من أو بتساوي 3",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الهندسة الكهربائية' OR symbol = 'الهندسة الكهربائية') AND credits >= 1 AND credits <= 3;"
+    },
+    {
+        "input": "بتقدر تعطيني رقم تلفون عميد كلية العلوم",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "ممكن تعطيني مساقات برنامج التصميم مع رموزها ؟",
+        "output": "SELECT c.name_arabic, c.symbol, c.description, c.credits FROM course c WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التصميم' OR symbol = 'التصميم') ORDER BY c.symbol;"
+    },
+    {
+        "input": "اوصف SCI",
+        "output": "SELECT description FROM faculty WHERE symbol = 'SCI';"
+    },
+    {
+        "input": "مين بدرّس LAW331؟",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'LAW331' OR c.symbol = 'LAW331';"
+    },
+    {
+        "input": "ايش مواد تخصص علم النفس فرعي دراسات مرأة اللي بفتحها مساق نظرية الاعمال اللي بعطيها الدكتور محمود بني مصطفى ؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي دراسات المرأة' OR symbol = 'رئيسي علم النفس / فرعي دراسات المرأة') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'نظرية الأعمال' OR symbol = 'نظرية الأعمال') AND (i.name_arabic = 'محمود بني مصطفى');"
+    },
+    {
+        "input": "شو الكلية تبعت ادارة الاعمال",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "عدد الساعات لمساق اللغة العربية",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'اللغة العربية' OR symbol = 'اللغة العربية';"
+    },
+    {
+        "input": "ممكن تشرحلي عن دائرة وتخصص الاعلام",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "شو اسماء مساعدين الفيزيا الكلاسيكية ؟",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN ta_course tac ON ta.id = tac.ta_id JOIN course c ON tac.course_id = c.id WHERE c.name_arabic = 'الفيزياء الكلاسيكية' OR c.symbol = 'الفيزياء الكلاسيكية';"
+    },
+    {
+        "input": "مين دكاترة مادة law331",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'LAW331' OR c.symbol = 'LAW331';"
+    },
+    {
+        "input": "بنفع تعطيني ليست بالمساعدين تخصص التعليم الجامع والتربية الخاصة",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN department d ON ta.department_id = d.id WHERE d.id IN (SELECT department_id FROM major WHERE name_arabic = 'التعليم الجامع والتربية الخاصة' OR symbol = 'التعليم الجامع والتربية الخاصة');"
+    },
+    {
+        "input": "علم النفس ماينر علم اجتماع تابع لاي دائرة؟",
+        "output": "SELECT d.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE m.name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR m.symbol = 'رئيسي علم النفس / فرعي علم الاجتماع';"
+    },
+    {
+        "input": "ايش رمز دائرة الفرنسي",
+        "output": "SELECT symbol FROM department WHERE name_arabic = 'اللغة الفرنسية' OR symbol = 'اللغة الفرنسية';"
+    },
+    {
+        "input": "ممكن تعطيني قائمة بالمدرسين بكلية التربية؟",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'التربية' OR f.symbol = 'التربية';"
+    },
+    {
+        "input": "شو الاوفيس اورز للدكتور بشار طحاينة؟",
+        "output": "SELECT office_hours FROM instructor WHERE name_arabic = 'بشار طحاينه';"
+    },
+    {
+        "input": "اي دائرة من دوائر الكلية فيها تخصص علم النفس",
+        "output": "SELECT d.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE m.name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR m.symbol = 'رئيسي علم النفس / فرعي علم الاجتماع';"
+    },
+    {
+        "input": "ممكن تعطيني المساقات الي الها على الاكثر ساعتين في تخصص الترجمة ؟",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الترجمة' OR symbol = 'الترجمة') AND credits <= 2;"
+    },
+    {
+        "input": "شو البريد الالكتراني الي بساعد هناء عمران",
+        "output": "SELECT email FROM teaching_assistant WHERE name_arabic = 'هناء العمران';"
+    },
+    {
+        "input": "مين دكاترة تخصص الفيزيا فرعي رياضيات",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id WHERE d.id IN (SELECT department_id FROM major WHERE name_arabic = 'الفيزياء / فرعي الرياضيات' OR symbol = 'الفيزياء / فرعي الرياضيات');"
+    },
+    {
+        "input": "مساقات احياء فرعي كيمياء اللي شرطها مساق الرياضيات",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الأحياء / فرعي الكيمياء الحيوية' OR symbol = 'الأحياء / فرعي الكيمياء الحيوية') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'الرياضيات المتقدمة' OR symbol = 'الرياضيات المتقدمة');"
+    },
+    {
+        "input": "بتقدر تقدم قائمة فمساقات بتخصص الترجمة بس تكون ساعتين او اقل؟",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الترجمة' OR symbol = 'الترجمة') AND credits <= 2;"
+    },
+    {
+        "input": "ايش الرقم الجامعي للمساعد محمود الرفاعي",
+        "output": "SELECT ritaj_id FROM teaching_assistant WHERE name_arabic = 'محمود الرفاعي';"
+    },
+    {
+        "input": "مساقات كلية الايتي؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "لأي دائرة بنتمي الدكتور مراد الشمايلة",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.id = i.department_id WHERE i.name_arabic = 'مراد الشمايلة';"
+    },
+    {
+        "input": "ايش هو مساق اساسيات البرمجة",
+        "output": "SELECT description FROM course WHERE name_arabic = 'أساسيات البرمجة' OR symbol = 'أساسيات البرمجة';"
+    },
+    {
+        "input": "اعطيني قائمة المساقات اللي في كلية الهندسة",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "الدكتور محمد حماد بعطي مواد ساعة؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN ( SELECT id FROM major WHERE name_arabic = 'أمن المعلومات' OR symbol = 'أمن المعلومات') AND c.credits = 1 AND i.name_arabic = 'محمد حماد';"
+    },
+    {
+        "input": "ممكن تعرض برامج دائرة المحاسبة",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE d.name_arabic = 'المحاسبة' OR d.symbol = 'المحاسبة';"
+    },
+    {
+        "input": "شو ربم مساعد رتاج",
+        "output": "SELECT ritaj_id FROM teaching_assistant WHERE name_arabic = 'محمود الرفاعي';"
+    },
+    {
+        "input": "اعطيني شو الدوائر الي فكلية الاقتصاد",
+        "output": "SELECT d.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الأعمال والاقتصاد' OR f.symbol = 'الأعمال والاقتصاد';"
+    },
+    {
+        "input": "ممكن اوصفلي دائرة اللغات والترجمة ؟",
+        "output": "SELECT description FROM department WHERE name_arabic = 'اللغات والترجمة';"
+    },
+    {
+        "input": "شو ايميل المساعدة هناء العمران ؟",
+        "output": "SELECT email FROM teaching_assistant WHERE name_arabic = 'هناء العمران';"
+    },
+    {
+        "input": "بتقدر تحكيلي ايش الدائرة اللي فيها عميد كلية الحقوق؟",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "شو بلزمنا قبل csc 121",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'CSC121' OR c.symbol = 'CSC121';"
+    },
+    {
+        "input": "نظرية الاعمال مساق لشو؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN major m ON d.id = m.department_id JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'نظرية الأعمال' OR c.symbol = 'نظرية الأعمال';"
+    },
+    {
+        "input": "متطلبات مادة الرعاية الصحية",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'الرعاية الصحية' OR c.symbol = 'الرعاية الصحية';"
+    },
+    {
+        "input": "شو اسم دكاترة الفيزيا",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id WHERE d.id IN (SELECT department_id FROM major WHERE name_arabic = 'الفيزياء / فرعي الرياضيات' OR symbol = 'الفيزياء / فرعي الرياضيات');"
+    },
+    {
+        "input": "شو رقم تلفون المساعدة رناد العربي؟",
+        "output": "SELECT phone_number FROM teaching_assistant WHERE name_arabic = 'رناد العربي';"
+    },
+    {
+        "input": "متى مواعيد الساعة المكتبية للدكتور بشار طحاينة؟",
+        "output": "SELECT office_hours FROM instructor WHERE name_arabic = 'بشار طحاينه';"
+    },
+    {
+        "input": "بدي رقم المساعد تبع رتاج",
+        "output": "SELECT ritaj_id FROM teaching_assistant WHERE name_arabic = 'محمود الرفاعي';"
+    },
+    {
+        "input": "بدي قائمة بمساقات التصميم مرتبة حسب الرمز مع تفاصيل كل مساق",
+        "output": "SELECT c.name_arabic, c.symbol, c.description, c.credits FROM course c WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التصميم' OR symbol = 'التصميم') ORDER BY c.symbol;"
+    },
+    {
+        "input": "ايش رمز ماث ٢",
+        "output": "SELECT symbol FROM course WHERE name_arabic = 'الرياضيات المتقدمة';"
+    },
+    {
+        "input": "بتقدر توصفلي مساق LAW331",
+        "output": "SELECT description FROM course WHERE name_arabic = 'LAW331' OR symbol = 'LAW331';"
+    },
+    {
+        "input": "Med211 اي تخصص؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'MED211' OR c.symbol = 'MED211';"
+    },
+    {
+        "input": "بدي الساعات المكتبية للدكتور بشار طحاينة؟",
+        "output": "SELECT office_hours FROM instructor WHERE name_arabic = 'بشار طحاينه';"
+    },
+    {
+        "input": "شو اسمك",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "شو الرقم الجامعي لرئيس دائرة التغذية",
+        "output": "SELECT i.ritaj_id FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'التغذية والحمية' OR d.symbol = 'التغذية والحمية';"
+    },
+    {
+        "input": "بتقدر تقدم الايميل لعميد كلية الفنون",
+        "output": "SELECT i.email FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الفنون والموسيقى والتصميم' OR f.symbol = 'الفنون والموسيقى والتصميم';"
+    },
+    {
+        "input": "معلش تعطيني المساقات تاعات تخصص رئيسي علم اجتماع فرعي علم نفس الي بتفتحها CSC121 و بتدرسها امل العليان ؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم اجتماع / فرعي علم النفس' OR symbol = 'رئيسي علم اجتماع / فرعي علم النفس') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'CSC121' OR symbol = 'CSC121') AND (ta.name_arabic = 'أمل العليان');"
+    },
+    {
+        "input": "بتقدر تحكيلي اسم عميد كلية الحقوق والادارة",
+        "output": "SELECT i.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "بتقدر تعطي قائمة بدكاترة دائرة الاقتصاد؟",
+        "output": "SELECT i.name_arabic FROM instructor i WHERE i.department_id IN (SELECT id FROM department WHERE name_arabic = 'الإقتصاد' OR symbol = 'الإقتصاد');"
+    },
+    {
+        "input": "CSC121 شو بفتح مواد؟",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'CSC121' OR c.symbol = 'CSC121';"
+    },
+    {
+        "input": "انمي المساعدين تبعون مساق الفيزيا الكلاسيكية",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN ta_course tac ON ta.id = tac.ta_id JOIN course c ON tac.course_id = c.id WHERE c.name_arabic = 'الفيزياء الكلاسيكية' OR c.symbol = 'الفيزياء الكلاسيكية';"
+    },
+    {
+        "input": "احكيلي عن مساق أساسيات البرمجة",
+        "output": "SELECT description FROM course WHERE name_arabic = 'أساسيات البرمجة' OR symbol = 'أساسيات البرمجة';"
+    },
+    {
+        "input": "بتقدر تعطيني اسماء مساقات في تخصص علم الاجتماع اللي بدها متطلب csc121 وبتدرسها المساعدة امل عليان؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم اجتماع / فرعي علم النفس' OR symbol = 'رئيسي علم اجتماع / فرعي علم النفس') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'CSC121' OR symbol = 'CSC121') AND (ta.name_arabic = 'أمل العليان');"
+    },
+    {
+        "input": "مساق MED211 لاي تخصص ؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'MED211' OR c.symbol = 'MED211';"
+    },
+    {
+        "input": "ممكن تعطيني ايميل عميد كلية الفنون؟",
+        "output": "SELECT i.email FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الفنون والموسيقى والتصميم' OR f.symbol = 'الفنون والموسيقى والتصميم';"
+    },
+    {
+        "input": "في مجال تعطيني قائمة برامج المحاسبة",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE d.name_arabic = 'المحاسبة' OR d.symbol = 'المحاسبة';"
+    },
+    {
+        "input": "بزبط تقديم قائمة بالمساقات لتخصص الكيميا بس هاي الساعات المعتمدة الها تكون اكتر من خمسة او خمسة ؟",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "شو بريد الدكتوومجمود بني مصطفى",
+        "output": "SELECT email FROM instructor WHERE name_arabic = 'محمود بني مصطفى';"
+    },
+    {
+        "input": "بتقدر تعطيني قائمة المساقات لتخصص الكيميا بانو يكون ساعاتها المعتمدة اكبر من خمسة او خمسة",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "إدارة الاعمال اي كلية",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "مين المساعدين لتخصص التعليم الجامع والتربية الخاصة؟",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN department d ON ta.department_id = d.id WHERE d.id IN (SELECT department_id FROM major WHERE name_arabic = 'التعليم الجامع والتربية الخاصة' OR symbol = 'التعليم الجامع والتربية الخاصة');"
+    },
+    {
+        "input": "ايش في مساقات ترجمة تكون ساعة او ساعتين",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الترجمة' OR symbol = 'الترجمة') AND credits <= 2;"
+    },
+    {
+        "input": "مساق BUS221 ايش بيفتح مواد لتخصص علم نفس فرعي اجتماع وبتنزل مع د. رانيا خالدي والمساعدة سلمى قرشي",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR symbol = 'رئيسي علم النفس / فرعي علم الاجتماع') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'BUS221' OR symbol = 'BUS221') AND (i.name_arabic = 'رانيا الخالدي') AND (ta.name_arabic = 'سلمى القرشي');"
+    },
+    {
+        "input": "شو في مساقات بتخصص الكيميا عليها 5 ساعات وأكثر",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "انو رئيس دائرة الجغرافيا؟",
+        "output": "SELECT i.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "دكتور مراد الشمايلة بأني دائرة",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.id = i.department_id WHERE i.name_arabic = 'مراد الشمايلة';"
+    },
+    {
+        "input": "بتقدر  تقدم البريد الإلكتروني لعميد كلية الفنون و الموسيقى و التصميم",
+        "output": "SELECT i.email FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الفنون والموسيقى والتصميم' OR f.symbol = 'الفنون والموسيقى والتصميم';"
+    },
+    {
+        "input": "دكتورة نجوى الحماد شو بتعطي مساقات؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "شو قائمة المساقات في تخصص أمن المعلومات الي عليها ساعة وبدرسها الدكتور محمد حماد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN ( SELECT id FROM major WHERE name_arabic = 'أمن المعلومات' OR symbol = 'أمن المعلومات') AND c.credits = 1 AND i.name_arabic = 'محمد حماد';"
+    },
+    {
+        "input": "رمز اللغة الفرنسية",
+        "output": "SELECT symbol FROM department WHERE name_arabic = 'اللغة الفرنسية' OR symbol = 'اللغة الفرنسية';"
+    },
+    {
+        "input": "بدي قائمة لمساقات التصميم وتكون مرتبة حسب رمزها وجنبها التفاصيل لكل مساق",
+        "output": "SELECT c.name_arabic, c.symbol, c.description, c.credits FROM course c WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التصميم' OR symbol = 'التصميم') ORDER BY c.symbol;"
+    },
+    {
+        "input": "بتقدر تقدم بريد الكتروني لعميد الفنون؟",
+        "output": "SELECT i.email FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الفنون والموسيقى والتصميم' OR f.symbol = 'الفنون والموسيقى والتصميم';"
+    },
+    {
+        "input": "اعطي رقم تلفون لعميد كلية علوم",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "بتقدر تقدم الساعات المكتبية لعميد كلية الهندسة",
+        "output": "SELECT i.office_hours FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "احكيلي شو المتطلبات السابقة لمساق csc121",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'CSC121' OR c.symbol = 'CSC121';"
+    },
+    {
+        "input": "بتعرف مدرسين في التربية",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'التربية' OR f.symbol = 'التربية';"
+    },
+    {
+        "input": "ممكن تعطيني قائمة برامج دائرة المحاسبة ؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE d.name_arabic = 'المحاسبة' OR d.symbol = 'المحاسبة';"
+    },
+    {
+        "input": "لاي تخصص مادة نظرية الاعمال؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN major m ON d.id = m.department_id JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'نظرية الأعمال' OR c.symbol = 'نظرية الأعمال';"
+    },
+    {
+        "input": "شو المواد الي بقدر اوخدهم بتخصص التسويق بدون ما اكون ماخدة مادة ECO222 ؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التسويق' OR symbol = 'التسويق') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'ECO222' OR symbol = 'ECO222');"
+    },
+    {
+        "input": "محمد علاونة عميد أي كلية؟",
+        "output": "SELECT f.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE i.name_arabic = 'محمد علاونة';"
+    },
+    {
+        "input": "شو المواد اللي بتفتحها مادة الcsc121",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم اجتماع / فرعي علم النفس' OR symbol = 'رئيسي علم اجتماع / فرعي علم النفس') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'CSC121' OR symbol = 'CSC121') AND (ta.name_arabic = 'أمل العليان');"
+    },
+    {
+        "input": "مين مساعدين مساق الفيزيا الكلاسيكية",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN ta_course tac ON ta.id = tac.ta_id JOIN course c ON tac.course_id = c.id WHERE c.name_arabic = 'الفيزياء الكلاسيكية' OR c.symbol = 'الفيزياء الكلاسيكية';"
+    },
+    {
+        "input": "بدي المساقات اللي بتعطيها د.نجوى في الاقتصاد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "شو وضع دائرة الاعلام؟",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "شو رقم تلفون عميد كلية العلوم؟",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "شو وصف كلية sci",
+        "output": "SELECT description FROM faculty WHERE symbol = 'SCI';"
+    },
+    {
+        "input": "عميد كلية الحقوق لاي دائرة بعتبر؟",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "اعطيني رقم عميد كلية العلوم",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "شو المساقات الي بتفتحها مادة نظرية الأعمال وبعطيها الدكتور محمود بنس مصطفى",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي دراسات المرأة' OR symbol = 'رئيسي علم النفس / فرعي دراسات المرأة') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'نظرية الأعمال' OR symbol = 'نظرية الأعمال') AND (i.name_arabic = 'محمود بني مصطفى');"
+    },
+    {
+        "input": "ممكن تخبرني معلومات اكثر عن كلية ال IT؟",
+        "output": "SELECT description FROM faculty WHERE name_arabic = 'الهندسة والتكنولوجيا' OR symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "شو مساقات تخصص علم النفس ماينر علم الاجتماع اللي بتتطلب اجتياز مساق BUS221؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR symbol = 'رئيسي علم النفس / فرعي علم الاجتماع') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'BUS221' OR symbol = 'BUS221') AND (i.name_arabic = 'رانيا الخالدي') AND (ta.name_arabic = 'سلمى القرشي');"
+    },
+    {
+        "input": "مطلوب المواد الي بعطيها راني هلال وتكون من ساعتين لابع ساعات",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التغذية والحمية' OR symbol = 'التغذية والحمية') AND c.credits >= 2 AND c.credits <= 4 AND (i.name_arabic = 'راني الهلال');"
+    },
+    {
+        "input": "شو لازم اخد قبل الرعاية الصحية",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'الرعاية الصحية' OR c.symbol = 'الرعاية الصحية';"
+    },
+    {
+        "input": "شو رقم رتاج تبع الدكتور محمد العمريس",
+        "output": "SELECT ritaj_id FROM instructor WHERE name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "محمد العمريس رئيس الدارة",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE i.name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "ايش متطلبات الرعاية",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'الرعاية الصحية' OR c.symbol = 'الرعاية الصحية';"
+    },
+    {
+        "input": "شو المتطلبات لمساق الراعية الصحية",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'الرعاية الصحية' OR c.symbol = 'الرعاية الصحية';"
+    },
+    {
+        "input": "اسماء مدرسين كلية التربية",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'التربية' OR f.symbol = 'التربية';"
+    },
+    {
+        "input": "بتقدر تعطيني قائمة لساعات المعتمدة لتخصص هندسة الكهربائية تكون اكبر من ساعة ١ واقل من ٣ ساعات",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الهندسة الكهربائية' OR symbol = 'الهندسة الكهربائية') AND credits >= 1 AND credits <= 3;"
+    },
+    {
+        "input": "بدي الرقم الجامعي تبع عميد كلية الصيدلة؟",
+        "output": "SELECT i.ritaj_id FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الصيدلة والتمريض والمهن الصحية' OR f.symbol = 'الصيدلة والتمريض والمهن الصحية';"
+    },
+    {
+        "input": "بدي مواد بين 2 و 4 ساعات لتخصص التغذية والحمية ويكون بعطيها الدكتور راني هلال",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التغذية والحمية' OR symbol = 'التغذية والحمية') AND c.credits >= 2 AND c.credits <= 4 AND (i.name_arabic = 'راني الهلال');"
+    },
+    {
+        "input": "مين بعطي مساق أساسيات البرمجة",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'أساسيات البرمجة' OR c.symbol = 'أساسيات البرمجة';"
+    },
+    {
+        "input": "شو المساقات الي بدرسها الكتور رائد عناني",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE i.name_arabic = 'رائد العناني';"
+    },
+    {
+        "input": "اعطيني قائمة مساقات تخصص التسويق الي بدها اكون مخلص ECO222؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التسويق' OR symbol = 'التسويق') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'ECO222' OR symbol = 'ECO222');"
+    },
+    {
+        "input": "عندك فكرة كيف بتقدم لقايمة الدوائر الأكاديمية في كلية التجارة؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الأعمال والاقتصاد' OR f.symbol = 'الأعمال والاقتصاد';"
+    },
+    {
+        "input": "شو هو رمز مساق الرياضيات المتقدمة",
+        "output": "SELECT symbol FROM course WHERE name_arabic = 'الرياضيات المتقدمة';"
+    },
+    {
+        "input": "بينفع تعطيني قائمة المساقات بتخصص امن المعلومات اللي بس عن ساعة وحدة للدكتور محمد حماد ؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN ( SELECT id FROM major WHERE name_arabic = 'أمن المعلومات' OR symbol = 'أمن المعلومات') AND c.credits = 1 AND i.name_arabic = 'محمد حماد';"
+    },
+    {
+        "input": "شو رمز الدائرة الاكاديمية",
+        "output": "SELECT symbol FROM department WHERE name_arabic = 'اللغة الفرنسية' OR symbol = 'اللغة الفرنسية';"
+    },
+    {
+        "input": "بدي ليست المواد اللي بتفتحش الا لما ناخد ECO222",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التسويق' OR symbol = 'التسويق') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'ECO222' OR symbol = 'ECO222');"
+    },
+    {
+        "input": "انمي مدرسين الاساسيات",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'أساسيات البرمجة' OR c.symbol = 'أساسيات البرمجة';"
+    },
+    {
+        "input": "شو رقم التواصل مع عميد العلوم؟",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "شو في مساقات بتخصص الاقتصاد بتعطيها الدكتورة نجوى",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "شو هو عنوان الدكتور محمود مصطفى",
+        "output": "SELECT email FROM instructor WHERE name_arabic = 'محمود بني مصطفى';"
+    },
+    {
+        "input": "اعطيني الاوفس اورز لرئيس دائرة العلوم المالية و المصرفية",
+        "output": "SELECT i.office_hours FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'العلوم المالية والمصرفية' OR d.symbol = 'العلوم المالية والمصرفية';"
+    },
+    {
+        "input": "قديش ساعات العربي؟",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'اللغة العربية' OR symbol = 'اللغة العربية';"
+    },
+    {
+        "input": "شو رمز الدسكريت",
+        "output": "SELECT symbol FROM course WHERE name_arabic = 'الرياضيات المتقدمة';"
+    },
+    {
+        "input": "شو رقم الدكتور محمد العمريس؟",
+        "output": "SELECT ritaj_id FROM instructor WHERE name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "شو الشغلات الي بساعد فيها هالكائن هاد",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tc ON c.id = tc.course_id JOIN teaching_assistant ta ON tc.ta_id = ta.id WHERE ta.name_arabic = 'حسن الدوسري';"
+    },
+    {
+        "input": "ايش لازم اخلص مواد عشان اقدر انزل هاي المادة",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'CSC121' OR c.symbol = 'CSC121';"
+    },
+    {
+        "input": "اعطيني قائمة لمساقات برنامج التصميم وتكون مرتبة حسب الرمز وتفاصيل كل مادة",
+        "output": "SELECT c.name_arabic, c.symbol, c.description, c.credits FROM course c WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التصميم' OR symbol = 'التصميم') ORDER BY c.symbol;"
+    },
+    {
+        "input": "شو المساقات الي لازم انزلها قبل bsu221 مع دكتور رانيا الخالدي والمساعدة سلمى",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR symbol = 'رئيسي علم النفس / فرعي علم الاجتماع') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'BUS221' OR symbol = 'BUS221') AND (i.name_arabic = 'رانيا الخالدي') AND (ta.name_arabic = 'سلمى القرشي');"
+    },
+    {
+        "input": "تخصص علم النفس فرعي علم الاجتماع محسوب عأي دائرة",
+        "output": "SELECT d.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE m.name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR m.symbol = 'رئيسي علم النفس / فرعي علم الاجتماع';"
+    },
+    {
+        "input": "شو المساقات اللي لازم نكون ماخدين فيها الرياضيات المتقدمة في تخصص الاحياء فرعي كيميا؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الأحياء / فرعي الكيمياء الحيوية' OR symbol = 'الأحياء / فرعي الكيمياء الحيوية') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'الرياضيات المتقدمة' OR symbol = 'الرياضيات المتقدمة');"
+    },
+    {
+        "input": "وينتى الساعات المكتبية للدكتور بشار ؟",
+        "output": "SELECT office_hours FROM instructor WHERE name_arabic = 'بشار طحاينه';"
+    },
+    {
+        "input": "بتقدر تقدملي وصف للمساقات اللي بالاعلام",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "احكيلي، شو تخصص عميد كلية الحقوق والادارة العامة ؟",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "كم عدد ساعات MED211",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'MED211' OR symbol = 'MED211';"
+    },
+    {
+        "input": "ما هي الساعات المكتبية لدى عميد كلية الهندسة",
+        "output": "SELECT i.office_hours FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "كم مجموع ساساعت تخصص تعليم الانجليزي لغة اجنبية؟",
+        "output": "SELECT hours FROM major WHERE name_arabic = 'تعليم اللغة الإنجليزية كلغة أجنبية' OR symbol = 'تعليم اللغة الإنجليزية كلغة أجنبية';"
+    },
+    {
+        "input": "ايميل رئيس دائرة الجغرافيا",
+        "output": "SELECT i.email FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "شو ايميل رئيس دائرة الجغرافيا",
+        "output": "SELECT i.email FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "عن ايش بحكي رمز برنامج الترجمة؟",
+        "output": "SELECT symbol FROM major WHERE name_arabic = 'الترجمة';"
+    },
+    {
+        "input": "ريما شعلان بأي دائرة بتشتغل",
+        "output": "SELECT d.name_arabic FROM department d JOIN teaching_assistant ta ON d.id = ta.department_id WHERE ta.name_arabic = 'ريما الشعلان';"
+    },
+    {
+        "input": "بتقدر تحكيلي عن الكلية الي فيها تخصص ادارة الاعمال؟",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "تتن",
+        "output": "SELECT c2.name_arabic FROM course c1 JOIN course_prerequisite cp ON c1.id = cp.course_id JOIN course c2 ON cp.prerequisite_id = c2.id WHERE c1.name_arabic = 'القانون العام' OR c1.symbol = 'القانون العام';"
+    },
+    {
+        "input": "في اي دائرة مادة نظرية الاعمال",
+        "output": "SELECT d.name_arabic FROM department d JOIN major m ON d.id = m.department_id JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'نظرية الأعمال' OR c.symbol = 'نظرية الأعمال';"
+    },
+    {
+        "input": "شو في مواد بعطيها محمود مصطفى والها مادة النظرية متطلب",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي دراسات المرأة' OR symbol = 'رئيسي علم النفس / فرعي دراسات المرأة') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'نظرية الأعمال' OR symbol = 'نظرية الأعمال') AND (i.name_arabic = 'محمود بني مصطفى');"
+    },
+    {
+        "input": "بدي كل مساقات هندسة الكهربا اللي بتكون ساعة او ساعتين او تلات",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الهندسة الكهربائية' OR symbol = 'الهندسة الكهربائية') AND credits >= 1 AND credits <= 3;"
+    },
+    {
+        "input": "عميد كلية العلوم شو رقمه ؟",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "وين الدائرة الموجود فيها محمد العمريس",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE i.name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "هل يمكنك أن تخبرني عن الكلية التي تتبع لها الدائرة الأكاديمية إدارة الأعمال؟",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "شو المساقات اللي بفتحها مساق القانون العام؟",
+        "output": "SELECT c2.name_arabic FROM course c1 JOIN course_prerequisite cp ON c1.id = cp.course_id JOIN course c2 ON cp.prerequisite_id = c2.id WHERE c1.name_arabic = 'القانون العام' OR c1.symbol = 'القانون العام';"
+    },
+    {
+        "input": "بدي قائمة المساقات لتخصص الاحياء ماينر كيميا اللي لازم انزل رياضيات متقدمة قبلها",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الأحياء / فرعي الكيمياء الحيوية' OR symbol = 'الأحياء / فرعي الكيمياء الحيوية') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'الرياضيات المتقدمة' OR symbol = 'الرياضيات المتقدمة');"
+    },
+    {
+        "input": "شو ايمايل المساعد هناء العمران؟",
+        "output": "SELECT email FROM teaching_assistant WHERE name_arabic = 'هناء العمران';"
+    },
+    {
+        "input": "بنفع تحكيلي اسم رئيس الدائرة الأكاديمية الجغرافيا؟",
+        "output": "SELECT i.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "محمد العمريس رئيس أي دائرة ؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE i.name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "شو رقم الدكتور محمد على ريتاج",
+        "output": "SELECT ritaj_id FROM instructor WHERE name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "شو رقم دكتور الصيدلة على رتاج",
+        "output": "SELECT i.ritaj_id FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الصيدلة والتمريض والمهن الصحية' OR f.symbol = 'الصيدلة والتمريض والمهن الصحية';"
+    },
+    {
+        "input": "كم ساعة مساق العربي",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'اللغة العربية' OR symbol = 'اللغة العربية';"
+    },
+    {
+        "input": "شو المواد اللي بتفتح المساق",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'CSC121' OR c.symbol = 'CSC121';"
+    },
+    {
+        "input": "كم عدد ساعات مادة اللغة العربية",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'اللغة العربية' OR symbol = 'اللغة العربية';"
+    },
+    {
+        "input": "المساعد ريما الشعلان لاي دائرة بتنتمي؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN teaching_assistant ta ON d.id = ta.department_id WHERE ta.name_arabic = 'ريما الشعلان';"
+    },
+    {
+        "input": "بدي مساقات بتخصص الاقتصاد وبتكون بتعطيها الدكتورة نجوى الحماد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "شو رمز الفرنسي؟",
+        "output": "SELECT symbol FROM department WHERE name_arabic = 'اللغة الفرنسية' OR symbol = 'اللغة الفرنسية';"
+    },
+    {
+        "input": "اعطيني مجموعة المساقات في الكيميا اللي ساعاتها 5 او اكثر",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "رقم دكتور محمد عمري",
+        "output": "SELECT phone_number FROM instructor WHERE name_arabic = 'محمد العمري';"
+    },
+    {
+        "input": "وين دائرة اللغات و الترجمة",
+        "output": "SELECT description FROM department WHERE name_arabic = 'اللغات والترجمة';"
+    },
+    {
+        "input": "بتقدر تعطيني فائمة لمساقات كلية الهندسة والتكنولوجيا",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "شو بفتح مساق القانون العام؟",
+        "output": "SELECT c2.name_arabic FROM course c1 JOIN course_prerequisite cp ON c1.id = cp.course_id JOIN course c2 ON cp.prerequisite_id = c2.id WHERE c1.name_arabic = 'القانون العام' OR c1.symbol = 'القانون العام';"
+    },
+    {
+        "input": "شو المواد الي بتفتح مساق csc121",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'CSC121' OR c.symbol = 'CSC121';"
+    },
+    {
+        "input": "احكيلي عن مساق اساسيات البرمجة /معلومات عن هذا المساق.؟",
+        "output": "SELECT description FROM course WHERE name_arabic = 'أساسيات البرمجة' OR symbol = 'أساسيات البرمجة';"
+    },
+    {
+        "input": "منين اجيب الساعات المكتبية لرئيس دائرة العلوم المالية والمصرفية",
+        "output": "SELECT i.office_hours FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'العلوم المالية والمصرفية' OR d.symbol = 'العلوم المالية والمصرفية';"
+    },
+    {
+        "input": "ايش هي المساقات الي بين ساعة ل ثلاث ساعات في الهندسة الكهربائية",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الهندسة الكهربائية' OR symbol = 'الهندسة الكهربائية') AND credits >= 1 AND credits <= 3;"
+    },
+    {
+        "input": "مين الدكاترة اللي بدرسوا مساقات الاقتصاد؟",
+        "output": "SELECT i.name_arabic FROM instructor i WHERE i.department_id IN (SELECT id FROM department WHERE name_arabic = 'الإقتصاد' OR symbol = 'الإقتصاد');"
+    },
+    {
+        "input": "بدي رقم تلفون عميد العلوم",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "مين بعطي سي؟",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'أساسيات البرمجة' OR c.symbol = 'أساسيات البرمجة';"
+    },
+    {
+        "input": "اعطيني المساقات في الموسيقى الي بدرسها رناد العربي",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الموسيقى' OR symbol = 'الموسيقى') AND (ta.name_arabic = 'رناد العربي');"
+    },
+    {
+        "input": "شو الساعات المكتبية لبشار طحاينة",
+        "output": "SELECT office_hours FROM instructor WHERE name_arabic = 'بشار طحاينه';"
+    },
+    {
+        "input": "بالله عميد كلية الحقوق مع اي دائرة",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "بتقدر تعطيني قائمة لتخصص الاحياء ال لازم تكون مخلص قبلو رياضيات متقدم ؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الأحياء / فرعي الكيمياء الحيوية' OR symbol = 'الأحياء / فرعي الكيمياء الحيوية') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'الرياضيات المتقدمة' OR symbol = 'الرياضيات المتقدمة');"
+    },
+    {
+        "input": "بدي ال id تاع رئيس دائرة التغذية؟",
+        "output": "SELECT i.ritaj_id FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'التغذية والحمية' OR d.symbol = 'التغذية والحمية';"
+    },
+    {
+        "input": "بتقدر تعطيني قائمة المساقات الي ساعاتها ٥ او اكتر لتخصص الكيميا",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "شو هي دائرة اللغات والترجمة",
+        "output": "SELECT description FROM department WHERE name_arabic = 'اللغات والترجمة';"
+    },
+    {
+        "input": "شو المواد الي قبل مادة الرعاية الصحية؟",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'الرعاية الصحية' OR c.symbol = 'الرعاية الصحية';"
+    },
+    {
+        "input": "كم عدد ساعات العربي؟",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'اللغة العربية' OR symbol = 'اللغة العربية';"
+    },
+    {
+        "input": "كديه عدد ساعات تخصص تعليم اللغة الإنجليزية كلغة اجنبية ؟",
+        "output": "SELECT hours FROM major WHERE name_arabic = 'تعليم اللغة الإنجليزية كلغة أجنبية' OR symbol = 'تعليم اللغة الإنجليزية كلغة أجنبية';"
+    },
+    {
+        "input": "بتقدر تعطيني رقمو لعميد كلية العلوم",
+        "output": "SELECT i.phone_number FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'العلوم' OR f.symbol = 'العلوم';"
+    },
+    {
+        "input": "بتعرف رقم المساعدة رناد العربي؟",
+        "output": "SELECT phone_number FROM teaching_assistant WHERE name_arabic = 'رناد العربي';"
+    },
+    {
+        "input": "ايش المساقات اللي بدرسها المساعد امل العليان في تخصص علم الاجتماع ماينر علم نفس اللي بتفتح مساق csc121",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم اجتماع / فرعي علم النفس' OR symbol = 'رئيسي علم اجتماع / فرعي علم النفس') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'CSC121' OR symbol = 'CSC121') AND (ta.name_arabic = 'أمل العليان');"
+    },
+    {
+        "input": "لأي دائرة المساعد ريما الشعلان بنتمي ؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN teaching_assistant ta ON d.id = ta.department_id WHERE ta.name_arabic = 'ريما الشعلان';"
+    },
+    {
+        "input": "كم ساعة مادّة med211؟",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'MED211' OR symbol = 'MED211';"
+    },
+    {
+        "input": "بتقدر توصف الدائرة الأكاديمية الإعلام؟",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "شو هي مساقات كلية الهندسة",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "بتقدر تعطيني رقم. تاج تبع رئيس الدائرة الأكاديمية تبعت التغذية والحمية",
+        "output": "SELECT i.ritaj_id FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'التغذية والحمية' OR d.symbol = 'التغذية والحمية';"
+    },
+    {
+        "input": "مين عميد كلية الحقوق",
+        "output": "SELECT i.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "كم ساعة علبها مادة MED211",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'MED211' OR symbol = 'MED211';"
+    },
+    {
+        "input": "اعطيني قائمة المساقات فتخصص الترجمة الي الساعة تبعتها اقل او بتساوي ثنين",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الترجمة' OR symbol = 'الترجمة') AND credits <= 2;"
+    },
+    {
+        "input": "هاد طويل مكسلة اكتبه سامحوني فيه",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الأحياء / فرعي الكيمياء الحيوية' OR symbol = 'الأحياء / فرعي الكيمياء الحيوية') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'الرياضيات المتقدمة' OR symbol = 'الرياضيات المتقدمة');"
+    },
+    {
+        "input": "بدي اسم رئيس دائرة الجغرافيا",
+        "output": "SELECT i.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "قديش عدد ساعات مساق MED211؟؟",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'MED211' OR symbol = 'MED211';"
+    },
+    {
+        "input": "بتقدر تقدم قائمة برامج لدائرة المحاسبة ؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE d.name_arabic = 'المحاسبة' OR d.symbol = 'المحاسبة';"
+    },
+    {
+        "input": "ريما الشعلان مساعدة ب اي دائرة بلكلية",
+        "output": "SELECT d.name_arabic FROM department d JOIN teaching_assistant ta ON d.id = ta.department_id WHERE ta.name_arabic = 'ريما الشعلان';"
+    },
+    {
+        "input": "بتقدر تبعتلي الساعات المكتبية لرئيس دائرة التجارة ؟",
+        "output": "SELECT i.office_hours FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'العلوم المالية والمصرفية' OR d.symbol = 'العلوم المالية والمصرفية';"
+    },
+    {
+        "input": "شل دشاشين الشعش مسشترات",
+        "output": "SELECT email FROM instructor WHERE name_arabic = 'محمود بني مصطفى';"
+    },
+    {
+        "input": "بتقدر تعطيني قائمة بالمساقات الي موجودة بكلية الهندسة و التكنولوجيا ؟",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "شو مساق LAW331",
+        "output": "SELECT description FROM course WHERE name_arabic = 'LAW331' OR symbol = 'LAW331';"
+    },
+    {
+        "input": "ممكن تحكيلي المواد اللي لازم اكون ماخدها عشان يفتحلي مساق الرعاية الصحية ؟",
+        "output": "SELECT cp.prerequisite_id FROM course_prerequisite cp JOIN course c ON cp.course_id = c.id WHERE c.name_arabic = 'الرعاية الصحية' OR c.symbol = 'الرعاية الصحية';"
+    },
+    {
+        "input": "حدا بعرف ايميل المساعدة هناء العمران؟",
+        "output": "SELECT email FROM teaching_assistant WHERE name_arabic = 'هناء العمران';"
+    },
+    {
+        "input": "ايش الدائرة الي بتبعلها عميد كلية الحقوق والادارة العامة",
+        "output": "SELECT d.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id JOIN department d ON i.department_id = d.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "لأي دائرة علم النفس/ علم اجتماع ؟",
+        "output": "SELECT d.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE m.name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR m.symbol = 'رئيسي علم النفس / فرعي علم الاجتماع';"
+    },
+    {
+        "input": "اعطيني رقم تلفون الدكتور محمد العمري",
+        "output": "SELECT phone_number FROM instructor WHERE name_arabic = 'محمد العمري';"
+    },
+    {
+        "input": "هو الدكتور رائد شو منزل",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE i.name_arabic = 'رائد العناني';"
+    },
+    {
+        "input": "بدي تعطيني قائمة لمواد معتمدة تكون ٥ ساعات او اكتر بس لتحصص الكيميا",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "هات اسماء المساقات الي بدرسهم مجوى بتخصص الاقتصاد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "بدي",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id WHERE d.name_arabic = 'المحاسبة' OR d.symbol = 'المحاسبة';"
+    },
+    {
+        "input": "اعطيني رقم د. محمد العمريس في ريتاج",
+        "output": "SELECT ritaj_id FROM instructor WHERE name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "الدكتور مراد باي دائرة",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.id = i.department_id WHERE i.name_arabic = 'مراد الشمايلة';"
+    },
+    {
+        "input": "اوصفلي تخصص القانون",
+        "output": "SELECT description FROM major WHERE name_arabic = 'القانون' OR symbol = 'القانون';"
+    },
+    {
+        "input": "بتقدر تعطيني اسماء المساعدين الي في التخصص التعليم الجامع و التربية الخاصة ؟",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN department d ON ta.department_id = d.id WHERE d.id IN (SELECT department_id FROM major WHERE name_arabic = 'التعليم الجامع والتربية الخاصة' OR symbol = 'التعليم الجامع والتربية الخاصة');"
+    },
+    {
+        "input": "احكيلي عن كلية العلوم",
+        "output": "SELECT description FROM faculty WHERE symbol = 'SCI';"
+    },
+    {
+        "input": "مين دكاترة مساق LAW331",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'LAW331' OR c.symbol = 'LAW331';"
+    },
+    {
+        "input": "بدي المساقات يلي بساعد فيها حسن الدوسري",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tc ON c.id = tc.course_id JOIN teaching_assistant ta ON tc.ta_id = ta.id WHERE ta.name_arabic = 'حسن الدوسري';"
+    },
+    {
+        "input": "اشرحلي عن تخصص القانون",
+        "output": "SELECT description FROM major WHERE name_arabic = 'القانون' OR symbol = 'القانون';"
+    },
+    {
+        "input": "من اي دائرة هاذ المساق",
+        "output": "SELECT d.name_arabic FROM department d JOIN major m ON d.id = m.department_id JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'نظرية الأعمال' OR c.symbol = 'نظرية الأعمال';"
+    },
+    {
+        "input": "شو تخصصات  كلية الهندسة والتكنولوجيا بجامعتكم",
+        "output": "SELECT description FROM faculty WHERE name_arabic = 'الهندسة والتكنولوجيا' OR symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "شو رقم تلفون المساعد رناد العربي ؟",
+        "output": "SELECT phone_number FROM teaching_assistant WHERE name_arabic = 'رناد العربي';"
+    },
+    {
+        "input": "انخلع ودي الساعات المكتبية لرئيس دائرة العلوم المصرفية",
+        "output": "SELECT i.office_hours FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'العلوم المالية والمصرفية' OR d.symbol = 'العلوم المالية والمصرفية';"
+    },
+    {
+        "input": "SCI?",
+        "output": "SELECT description FROM faculty WHERE symbol = 'SCI';"
+    },
+    {
+        "input": "ممكن تعطيني المساقات اللي بتدرسها الدكتورة نجوى الحماد لتخصص الاقتصاد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "شو وضع مساق LAW331؟ صعب؟ سهل؟",
+        "output": "SELECT description FROM course WHERE name_arabic = 'LAW331' OR symbol = 'LAW331';"
+    },
+    {
+        "input": "كلية الit",
+        "output": "SELECT description FROM faculty WHERE name_arabic = 'الهندسة والتكنولوجيا' OR symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "شو رقم تلفون المساعد رناد العربي",
+        "output": "SELECT phone_number FROM teaching_assistant WHERE name_arabic = 'رناد العربي';"
+    },
+    {
+        "input": "بدي ساعات المكتبية لعميد كلية الit",
+        "output": "SELECT i.office_hours FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "بتعرفوا الاوفس اورز لعميد كلية الهندسة؟",
+        "output": "SELECT i.office_hours FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "مين همي مساعدين الفيزيا الكلاسيكيه",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN ta_course tac ON ta.id = tac.ta_id JOIN course c ON tac.course_id = c.id WHERE c.name_arabic = 'الفيزياء الكلاسيكية' OR c.symbol = 'الفيزياء الكلاسيكية';"
+    },
+    {
+        "input": "شو اسم عميد الحقوق",
+        "output": "SELECT i.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "ادارة الاعمال تابعة لأي كلية؟",
+        "output": "SELECT f.name_arabic FROM department d JOIN faculty f ON d.faculty_id = f.id WHERE d.name_arabic = 'إدارة الأعمال' OR d.symbol = 'إدارة الأعمال';"
+    },
+    {
+        "input": "شو رمز الديسكريت",
+        "output": "SELECT symbol FROM course WHERE name_arabic = 'الرياضيات المتقدمة';"
+    },
+    {
+        "input": "علوم",
+        "output": "SELECT description FROM faculty WHERE symbol = 'SCI';"
+    },
+    {
+        "input": "معك رقم دكتور محمد العمري؟",
+        "output": "SELECT phone_number FROM instructor WHERE name_arabic = 'محمد العمري';"
+    },
+    {
+        "input": "اذا ممكن تعطيني قائمة بالمساقات اللي في تخصص علم النفس فرعي علم الاجتماع اللي بدها BUS221 كمتطلب سابق وبتدرسها الدكتورة رانيا الخالدي والمساعدة سلمى القرشي؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR symbol = 'رئيسي علم النفس / فرعي علم الاجتماع') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'BUS221' OR symbol = 'BUS221') AND (i.name_arabic = 'رانيا الخالدي') AND (ta.name_arabic = 'سلمى القرشي');"
+    },
+    {
+        "input": "شو الدائرة الي الدكتور محمد عمريس رئيس فيها",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE i.name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "اسم عميد الحقوق؟",
+        "output": "SELECT i.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "ممكن تقدم قائمة المساقات في هندسة الكهربا بس بشرط تكون الساعات المعتمدة الها اكبر او بتساوي واحد او اقل او تساوي تلاتة ؟",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الهندسة الكهربائية' OR symbol = 'الهندسة الكهربائية') AND credits >= 1 AND credits <= 3;"
+    },
+    {
+        "input": "اذا معك رقم رئيس الدائرة لهندسة الكهربا والحاسوب اعطيني",
+        "output": "SELECT i.phone_number FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الهندسة الكهربائية وهندسة الحاسوب' OR d.symbol = 'الهندسة الكهربائية وهندسة الحاسوب';"
+    },
+    {
+        "input": "شو رقم التلفون للمساعد",
+        "output": "SELECT phone_number FROM teaching_assistant WHERE name_arabic = 'رناد العربي';"
+    },
+    {
+        "input": "وين بلاقي محمد علاونه ؟",
+        "output": "SELECT f.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE i.name_arabic = 'محمد علاونة';"
+    },
+    {
+        "input": "ايش في مساقات تغذية من ساعتين لاربع ساعات مع الدكتور راني هلال",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التغذية والحمية' OR symbol = 'التغذية والحمية') AND c.credits >= 2 AND c.credits <= 4 AND (i.name_arabic = 'راني الهلال');"
+    },
+    {
+        "input": "ايش ايميل المساعدة هناء العمران",
+        "output": "SELECT email FROM teaching_assistant WHERE name_arabic = 'هناء العمران';"
+    },
+    {
+        "input": "بتقدر تقدم قائمه بالمساقات بتخصص علم النفس فرع علم اجتماع الي لازم",
+        "output": "SELECT c.name_arabic FROM course c JOIN course_prerequisite cp ON c.id = cp.course_id JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id JOIN ta_course tac ON c.id = tac.course_id JOIN teaching_assistant ta ON tac.ta_id = ta.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'رئيسي علم النفس / فرعي علم الاجتماع' OR symbol = 'رئيسي علم النفس / فرعي علم الاجتماع') AND cp.prerequisite_id IN (SELECT id FROM course WHERE name_arabic = 'BUS221' OR symbol = 'BUS221') AND (i.name_arabic = 'رانيا الخالدي') AND (ta.name_arabic = 'سلمى القرشي');"
+    },
+    {
+        "input": "بدي مساقات بتخصص التغذية والحمية ساعاتها ٢ ل ٤ ساعات وبعطيها الدكتور راني هلال",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التغذية والحمية' OR symbol = 'التغذية والحمية') AND c.credits >= 2 AND c.credits <= 4 AND (i.name_arabic = 'راني الهلال');"
+    },
+    {
+        "input": "اي دائرة اللي رأيسها محمد العمريس؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE i.name_arabic = 'محمد العمريس';"
+    },
+    {
+        "input": "بتقدر تبعتلي ايميل رئيس دائرة الجغرافية",
+        "output": "SELECT i.email FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'الجغرافية' OR d.symbol = 'الجغرافية';"
+    },
+    {
+        "input": "بتقدر تعطيني رقم رئيس دائرة الأكاديمية على ريتاج",
+        "output": "SELECT i.ritaj_id FROM department d JOIN instructor i ON d.head_instructor_id = i.id WHERE d.name_arabic = 'التغذية والحمية' OR d.symbol = 'التغذية والحمية';"
+    },
+    {
+        "input": "شو هي الدائرة الاكاديمية الاعلام",
+        "output": "SELECT description FROM department WHERE name_arabic = 'الإعلام' OR symbol = 'الإعلام';"
+    },
+    {
+        "input": "شو هي مساقات البرمج وشو رمز كل مساق والكيلو شوية تفاصيل عنها",
+        "output": "SELECT c.name_arabic, c.symbol, c.description, c.credits FROM course c WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التصميم' OR symbol = 'التصميم') ORDER BY c.symbol;"
+    },
+    {
+        "input": "شو اسم المساق.. او ايش اسم المساق..",
+        "output": "SELECT name_arabic FROM course WHERE symbol = 'ARC151';"
+    },
+    {
+        "input": "كم ساعة على العربي؟",
+        "output": "SELECT credits FROM course WHERE name_arabic = 'اللغة العربية' OR symbol = 'اللغة العربية';"
+    },
+    {
+        "input": "بدي قائمة مساقات تخصص التغذية الي ساعاتها 2واكبر ل 4 وأقل ونازلة مع دكتور راني هلال",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'التغذية والحمية' OR symbol = 'التغذية والحمية') AND c.credits >= 2 AND c.credits <= 4 AND (i.name_arabic = 'راني الهلال');"
+    },
+    {
+        "input": "بنفع تعطيني قائمة لمدرسين كلية التربية",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN department d ON i.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'التربية' OR f.symbol = 'التربية';"
+    },
+    {
+        "input": "شو في مساقات كيمياء خمس ساعات معتمدة ؟",
+        "output": "SELECT name_arabic FROM course WHERE major_id IN (SELECT id FROM major WHERE name_arabic = 'الكيمياء' OR symbol = 'الكيمياء') AND credits >= 5;"
+    },
+    {
+        "input": "اعطيني وصف كلية sci",
+        "output": "SELECT description FROM faculty WHERE symbol = 'SCI';"
+    },
+    {
+        "input": "انو عميد الحقوق؟",
+        "output": "SELECT i.name_arabic FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الحقوق والإدارة العامة' OR f.symbol = 'الحقوق والإدارة العامة';"
+    },
+    {
+        "input": "حسن الدوسري شو بدرس ؟",
+        "output": "SELECT c.name_arabic FROM course c JOIN ta_course tc ON c.id = tc.course_id JOIN teaching_assistant ta ON tc.ta_id = ta.id WHERE ta.name_arabic = 'حسن الدوسري';"
+    },
+    {
+        "input": "اعطيني اي دي ريتاج لعميد كليه التمريض",
+        "output": "SELECT i.ritaj_id FROM faculty f JOIN instructor i ON f.dean_id = i.id WHERE f.name_arabic = 'الصيدلة والتمريض والمهن الصحية' OR f.symbol = 'الصيدلة والتمريض والمهن الصحية';"
+    },
+    {
+        "input": "ايش بتعطي الدكتورة نجوى الحماد",
+        "output": "SELECT c.name_arabic FROM course c JOIN instructor_course ic ON c.id = ic.course_id JOIN instructor i ON ic.instructor_id = i.id WHERE c.major_id IN (SELECT id FROM major WHERE name_arabic = 'الاقتصاد' OR symbol = 'الاقتصاد') AND (i.name_arabic = 'نجوى الحماد');"
+    },
+    {
+        "input": "مساق نظرية الأعمال بتبع اي دائرة؟",
+        "output": "SELECT d.name_arabic FROM department d JOIN major m ON d.id = m.department_id JOIN course c ON m.id = c.major_id WHERE c.name_arabic = 'نظرية الأعمال' OR c.symbol = 'نظرية الأعمال';"
+    },
+    {
+        "input": "مين بعطي مادة اساسيات البرمجة",
+        "output": "SELECT i.name_arabic FROM instructor i JOIN instructor_course ic ON i.id = ic.instructor_id JOIN course c ON ic.course_id = c.id WHERE c.name_arabic = 'أساسيات البرمجة' OR c.symbol = 'أساسيات البرمجة';"
+    },
+    {
+        "input": "بدي قائمة بالمساقات بكلية الهندسة",
+        "output": "SELECT m.name_arabic FROM major m JOIN department d ON m.department_id = d.id JOIN faculty f ON d.faculty_id = f.id WHERE f.name_arabic = 'الهندسة والتكنولوجيا' OR f.symbol = 'الهندسة والتكنولوجيا';"
+    },
+    {
+        "input": "مين مساعدين تخصص تعليم جامع وتربية خاصة",
+        "output": "SELECT ta.name_arabic FROM teaching_assistant ta JOIN department d ON ta.department_id = d.id WHERE d.id IN (SELECT department_id FROM major WHERE name_arabic = 'التعليم الجامع والتربية الخاصة' OR symbol = 'التعليم الجامع والتربية الخاصة');"
+    }
+]
